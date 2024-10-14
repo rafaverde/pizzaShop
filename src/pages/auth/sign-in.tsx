@@ -23,7 +23,6 @@ export function SignIn() {
 
   async function handleSignIn(data: SignInFormInput) {
     try {
-      console.log(data);
       await new Promise((resolve) => setTimeout(resolve, 2000));
 
       toast.success("Enviamos um link de autenticação para seu email.", {
@@ -57,7 +56,11 @@ export function SignIn() {
           <form className="space-y-4" onSubmit={handleSubmit(handleSignIn)}>
             <div className="space-y-2">
               <Label htmlFor="email">Seu e-mail</Label>
-              <Input id="email" type="email" {...register("email")} />
+              <Input
+                id="email"
+                type="email"
+                {...register("email", { required: true })}
+              />
             </div>
 
             <Button type="submit" className="w-full" disabled={isSubmitting}>
