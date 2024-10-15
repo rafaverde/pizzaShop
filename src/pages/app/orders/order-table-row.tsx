@@ -3,8 +3,6 @@ import { TableCell, TableRow } from "@/components/ui/table";
 
 import { ArrowRight, Search, X } from "lucide-react";
 
-// export interface OrderTableRowProps {}
-
 export function OrderTableRow() {
   return (
     <TableRow>
