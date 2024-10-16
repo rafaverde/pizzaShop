@@ -16,8 +16,6 @@ import {
 
 import colors from "tailwindcss/colors";
 
-// export const description = "A bar chart with a label";
-
 const chartData = [
   { date: "14/10", revenue: 1200 },
   { date: "15/10", revenue: 245 },
