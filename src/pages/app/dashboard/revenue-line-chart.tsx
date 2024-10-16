@@ -17,7 +17,7 @@ import {
 
 import colors from "tailwindcss/colors";
 
-const data = [
+const chartData = [
   { date: "14/10", revenue: 1200 },
   { date: "15/10", revenue: 245 },
   { date: "16/10", revenue: 546 },
@@ -27,7 +27,7 @@ const data = [
   { date: "20/10", revenue: 2457 },
 ];
 
-export function RevenueChart() {
+export function RevenueLineChart() {
   return (
     <Card className="col-span-6">
       <CardHeader className="flex-row items-center justify-between pb-8">
@@ -40,7 +40,7 @@ export function RevenueChart() {
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={240}>
-          <LineChart data={data} style={{ fontSize: 12 }}>
+          <LineChart data={chartData} style={{ fontSize: 12 }}>
             <XAxis dataKey="date" axisLine={false} tickLine={false} dy={16} />
             <YAxis
               width={80}
