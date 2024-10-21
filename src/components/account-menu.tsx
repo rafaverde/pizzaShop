@@ -1,3 +1,9 @@
+import { useQuery } from "@tanstack/react-query";
+import { GetProfile } from "@/api/get-profile";
+import { GetManagedRestaurant } from "@/api/get-managed-restaurant";
+
+import { Building, ChevronDown, LogOut } from "lucide-react";
+
 import {
   DropdownMenuTrigger,
   DropdownMenu,
@@ -5,13 +11,22 @@ import {
   DropdownMenuSeparator,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
-import { Building, ChevronDown, LogOut } from "lucide-react";
 import {
   DropdownMenuItem,
   DropdownMenuLabel,
 } from "@radix-ui/react-dropdown-menu";
 
 export function AccountMenu() {
+  const { data: profile } = useQuery({
+    queryKey: ["profile"],
+    queryFn: GetProfile,
+  });
+
+  const { data: managedRestaurant } = useQuery({
+    queryKey: ["managed-restaurant"],
+    queryFn: GetManagedRestaurant,
+  });
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -19,15 +34,15 @@ export function AccountMenu() {
           variant="outline"
           className="flex select-none items-center gap-2"
         >
-          Pizza Shop
+          {managedRestaurant?.name}
           <ChevronDown className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="flex w-56 flex-col gap-2 p-3">
         <DropdownMenuLabel className="flex flex-col">
-          <span>Rafael Valverde</span>
+          <span>{profile?.name}</span>
           <span className="text-xs font-normal text-muted-foreground">
-            rafaverde@msn.com
+            {profile?.email}
           </span>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />

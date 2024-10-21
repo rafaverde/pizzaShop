@@ -4,7 +4,6 @@ import reactHooks from "eslint-plugin-react-hooks";
 import reactRefresh from "eslint-plugin-react-refresh";
 import tseslint from "typescript-eslint";
 import simpleImportSort from "eslint-plugin-simple-import-sort";
-import rocketConfig from "@rocketseat/eslint-config/react";
 
 export default tseslint.config(
   { ignores: ["dist"] },
