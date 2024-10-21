@@ -9,23 +9,23 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuSeparator,
-} from "./ui/dropdown-menu";
-import { Button } from "./ui/button";
-import {
   DropdownMenuItem,
   DropdownMenuLabel,
-} from "@radix-ui/react-dropdown-menu";
+} from "./ui/dropdown-menu";
+import { Button } from "./ui/button";
+import { Skeleton } from "./ui/skeleton";
 
 export function AccountMenu() {
-  const { data: profile } = useQuery({
+  const { data: profile, isLoading: isLoadingProfile } = useQuery({
     queryKey: ["profile"],
     queryFn: GetProfile,
   });
 
-  const { data: managedRestaurant } = useQuery({
-    queryKey: ["managed-restaurant"],
-    queryFn: GetManagedRestaurant,
-  });
+  const { data: managedRestaurant, isLoading: isLoadingManagedRestaurant } =
+    useQuery({
+      queryKey: ["managed-restaurant"],
+      queryFn: GetManagedRestaurant,
+    });
 
   return (
     <DropdownMenu>
@@ -34,23 +34,36 @@ export function AccountMenu() {
           variant="outline"
           className="flex select-none items-center gap-2"
         >
-          {managedRestaurant?.name}
+          {isLoadingManagedRestaurant ? (
+            <Skeleton className="h-4 w-40" />
+          ) : (
+            managedRestaurant?.name
+          )}
           <ChevronDown className="h-4 w-4" />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="flex w-56 flex-col gap-2 p-3">
+      <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel className="flex flex-col">
-          <span>{profile?.name}</span>
-          <span className="text-xs font-normal text-muted-foreground">
-            {profile?.email}
-          </span>
+          {isLoadingProfile ? (
+            <div className="space-y-1.5">
+              <Skeleton className="w-30 h-4" />
+              <Skeleton className="h-3 w-20" />
+            </div>
+          ) : (
+            <>
+              <span>{profile?.name}</span>
+              <span className="text-xs font-normal text-muted-foreground">
+                {profile?.email}
+              </span>
+            </>
+          )}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="flex cursor-pointer select-none items-center gap-2">
+        <DropdownMenuItem>
           <Building className="h-4 w-4" />
           <span>Perfil da loja</span>
         </DropdownMenuItem>
-        <DropdownMenuItem className="flex cursor-pointer select-none items-center gap-2 text-rose-500 dark:text-rose-400">
+        <DropdownMenuItem className="text-rose-500 dark:text-rose-400">
           <LogOut className="h-4 w-4" />
           <span>Sair</span>
         </DropdownMenuItem>
