@@ -1,6 +1,10 @@
 import { formatDistanceToNow } from "date-fns";
 import { ptBR } from "date-fns/locale";
 import { useState } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { cancelOrder } from "@/api/cancel-order";
+import { GetOrdersResponse } from "@/api/get-orders";
 
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogTrigger } from "@/components/ui/dialog";
@@ -22,6 +26,33 @@ export interface OrderTableRowProps {
 
 export function OrderTableRow({ order }: OrderTableRowProps) {
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
+  const queryClient = useQueryClient();
+
+  const { mutateAsync: cancelOrderFn } = useMutation({
+    mutationFn: cancelOrder,
+    async onSuccess(_, { orderId }) {
+      const ordersListCached = queryClient.getQueriesData<GetOrdersResponse>({
+        queryKey: ["orders"],
+      });
+
+      ordersListCached.forEach(([cacheKey, cacheData]) => {
+        if (!cacheData) {
+          return;
+        }
+
+        queryClient.setQueryData<GetOrdersResponse>(cacheKey, {
+          ...cacheData,
+          orders: cacheData.orders.map((order) => {
+            if (order.orderId === orderId) {
+              return { ...order, status: "canceled" };
+            }
+
+            return order;
+          }),
+        });
+      });
+    },
+  });
 
   return (
     <TableRow>
@@ -50,7 +81,7 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
         <OrderStatus status={order.status} />
       </TableCell>
       <TableCell className="font-medium">{order.customerName}</TableCell>
-      <TableCell className="text-right font-medium">
+      <TableCell className="font-medium">
         {(order.total / 100).toLocaleString("pt-BR", {
           style: "currency",
           currency: "BRL",
@@ -62,7 +93,12 @@ export function OrderTableRow({ order }: OrderTableRowProps) {
         </Button>
       </TableCell>
       <TableCell>
-        <Button variant="ghost" size="xsm">
+        <Button
+          variant="ghost"
+          size="xsm"
+          disabled={!["pending", "processing"].includes(order.status)}
+          onClick={() => cancelOrderFn({ orderId: order.orderId })}
+        >
           <X className="mr-2 h-3 w-3" /> Cancelar
         </Button>
       </TableCell>
