@@ -23,7 +23,7 @@ export function MonthlyRevenueCard() {
         {monthlyRevenue && (
           <>
             <span className="text-2xl font-bold tracking-tight">
-              {monthlyRevenue.receipt.toLocaleString("pt-BR", {
+              {(monthlyRevenue.receipt / 100).toLocaleString("pt-BR", {
                 style: "currency",
                 currency: "BRL",
               })}
