@@ -1,7 +1,16 @@
+import { useQuery } from "@tanstack/react-query";
+import { getMonthCanceledOrdersAmount } from "@/api/get-month-canceled-orders-amount";
+
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+
 import { CircleSlash } from "lucide-react";
 
 export function MonthlyCanceledOrdersAmountCard() {
+  const { data: monthlyCanceledOrdersAmount } = useQuery({
+    queryKey: ["metrics", "monthly-canceled-orders-amount"],
+    queryFn: getMonthCanceledOrdersAmount,
+  });
+
   return (
     <Card>
       <CardHeader className="flex-row items-center justify-between space-y-0">
@@ -11,11 +20,25 @@ export function MonthlyCanceledOrdersAmountCard() {
         <CircleSlash className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent className="space-y-1">
-        <span className="text-2xl font-bold tracking-tight">6</span>
-        <p className="text-xs text-muted-foreground">
-          <span className="text-emerald-500 dark:text-emerald-400">-3%</span> em
-          relação ao mês passado
-        </p>
+        {monthlyCanceledOrdersAmount && (
+          <>
+            <span className="text-2xl font-bold tracking-tight">
+              {monthlyCanceledOrdersAmount.amount}
+            </span>
+            <p className="text-xs text-muted-foreground">
+              {monthlyCanceledOrdersAmount.diffFromLastMonth <= 0 ? (
+                <span className="text-emerald-500 dark:text-emerald-400">
+                  {monthlyCanceledOrdersAmount.diffFromLastMonth}%
+                </span>
+              ) : (
+                <span className="text-rose-500 dark:text-rose-400">
+                  +{monthlyCanceledOrdersAmount.diffFromLastMonth}%
+                </span>
+              )}{" "}
+              em relação ao mês passado
+            </p>
+          </>
+        )}
       </CardContent>
     </Card>
   );
