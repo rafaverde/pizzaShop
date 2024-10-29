@@ -23,6 +23,7 @@ import { Label } from "@/components/ui/label";
 import { DataRangePicker } from "@/components/ui/data-range-picker";
 
 import colors from "tailwindcss/colors";
+import { Loader2 } from "lucide-react";
 
 const chartConfig = {
   receipt: {
@@ -71,7 +72,7 @@ export function RevenueBarChart() {
         </div>
       </CardHeader>
       <CardContent>
-        {charData && (
+        {charData ? (
           <ChartContainer
             config={chartConfig}
             className="max-h-[250px] w-[100%]"
@@ -112,6 +113,10 @@ export function RevenueBarChart() {
               </Bar>
             </BarChart>
           </ChartContainer>
+        ) : (
+          <div className="flex h-[240px] w-full items-center justify-center">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
         )}
       </CardContent>
     </Card>
