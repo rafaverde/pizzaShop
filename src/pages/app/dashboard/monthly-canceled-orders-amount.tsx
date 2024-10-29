@@ -4,6 +4,7 @@ import { getMonthCanceledOrdersAmount } from "@/api/get-month-canceled-orders-am
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 import { CircleSlash } from "lucide-react";
+import { MetricCardSkeleton } from "./metric-card-skeleton";
 
 export function MonthlyCanceledOrdersAmountCard() {
   const { data: monthlyCanceledOrdersAmount } = useQuery({
@@ -20,7 +21,7 @@ export function MonthlyCanceledOrdersAmountCard() {
         <CircleSlash className="h-4 w-4 text-muted-foreground" />
       </CardHeader>
       <CardContent className="space-y-1">
-        {monthlyCanceledOrdersAmount && (
+        {monthlyCanceledOrdersAmount ? (
           <>
             <span className="text-2xl font-bold tracking-tight">
               {monthlyCanceledOrdersAmount.amount}
@@ -38,6 +39,8 @@ export function MonthlyCanceledOrdersAmountCard() {
               em relação ao mês passado
             </p>
           </>
+        ) : (
+          <MetricCardSkeleton />
         )}
       </CardContent>
     </Card>
