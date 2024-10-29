@@ -7,14 +7,6 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { ResponsiveContainer, PieChart, Pie, Cell } from "recharts";
 import { getPopularProducts } from "@/api/get-popular-products";
 
-// const chartData = [
-//   { productName: "Calabresa", revenueAmount: 40 },
-//   { productName: "Pepperoni", revenueAmount: 32 },
-//   { productName: "Mussarela", revenueAmount: 15 },
-//   { productName: "4 Queijos", revenueAmount: 20 },
-//   { productName: "Portuguesa", revenueAmount: 35 },
-// ];
-
 const COLORS = [
   colors.sky[500],
   colors.amber[500],
