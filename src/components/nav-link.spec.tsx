@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { NavLink } from "./nav-ilnk";
+import { NavLink } from "./nav-link";
 import { MemoryRouter } from "react-router-dom";
 
 describe("Navlink", () => {

@@ -1,4 +1,4 @@
-import { NavLink } from "./nav-ilnk";
+import { NavLink } from "./nav-link";
 
 import { Home, Pizza, UtensilsCrossed } from "lucide-react";
 
