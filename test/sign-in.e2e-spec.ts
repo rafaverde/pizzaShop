@@ -1,5 +1,4 @@
 import { test, expect } from "@playwright/test";
-import { aw } from "vitest/dist/chunks/reporters.anwo7Y6a.js";
 
 test("sign in successfully", async ({ page }) => {
   await page.goto("/signin", { waitUntil: "networkidle" });
