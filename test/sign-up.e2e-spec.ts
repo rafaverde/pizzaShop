@@ -14,13 +14,11 @@ test("sign up successfully and if click on toast button login, redirects with em
 
   await page.getByRole("button", { name: "Finalizar cadastro" }).click();
 
-  expect(toast).toBeVisible();
+  await expect(toast).toBeVisible();
 
   await page.getByRole("button", { name: "Login" }).click();
 
-  expect(page.url()).toContain("signin?email=johndoe@example.com");
-
-  await page.waitForTimeout(1000);
+  await expect(page.url()).toContain("signin?email=johndoe@example.com");
 });
 
 test("sign up error", async ({ page }) => {
@@ -37,9 +35,7 @@ test("sign up error", async ({ page }) => {
 
   await page.getByRole("button", { name: "Finalizar cadastro" }).click();
 
-  expect(toast).toBeVisible();
-
-  await page.waitForTimeout(1000);
+  await expect(toast).toBeVisible();
 });
 
 test("navigate to sign in page", async ({ page }) => {

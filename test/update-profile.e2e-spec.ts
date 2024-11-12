@@ -13,13 +13,13 @@ test("update profile successfully", async ({ page }) => {
   await page.waitForLoadState("networkidle");
 
   const toast = page.getByText("Perfil atualizado com sucesso!");
-  expect(toast).toBeVisible();
+  await expect(toast).toBeVisible();
 
   await page.getByRole("button", { name: "Close" }).click();
 
-  expect(page.getByRole("button", { name: "Valverde's Pizza" })).toBeVisible();
-
-  await page.waitForTimeout(1000);
+  await expect(
+    page.getByRole("button", { name: "Valverde's Pizza" }),
+  ).toBeVisible();
 });
 
 test("update profile with error", async ({ page }) => {
@@ -36,6 +36,5 @@ test("update profile with error", async ({ page }) => {
 
   const toast = page.getByText("Falha ao atualizar perfil, tente novamente.");
 
-  expect(toast).toBeVisible();
-  await page.waitForTimeout(1000);
+  await expect(toast).toBeVisible();
 });
